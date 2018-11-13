@@ -1,0 +1,29 @@
+{
+  "name": "node-experiments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": "11.1.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.2"
+  },
+  "dependencies": {
+    "boom": "^7.2.2",
+    "content-type": "^1.0.4",
+    "is-stream": "^1.1.0",
+    "raw-body": "^2.3.3"
+  }
+}
