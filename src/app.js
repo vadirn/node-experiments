@@ -3,8 +3,18 @@ const formatError = require('./server/formatError');
 const parseRequestUrl = require('./server/parseRequestUrl');
 const json = require('./server/json');
 const ResourceProvider = require('./server/ResourceProvider');
+const { Pool } = require('pg');
 
-const resourceProvider = new ResourceProvider();
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
+pool.on('error', err => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1);
+});
+
+const resourceProvider = new ResourceProvider({ pool });
 
 resourceProvider.addResource('authentication', require('./api/authentication'));
 

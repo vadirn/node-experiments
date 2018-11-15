@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "new-migration": "node ./scripts/createMigration.js",
+    "migrations": "node ./scripts/runMigrations.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "yarn run migrations"
   },
   "keywords": [],
   "author": "",
@@ -15,15 +18,19 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
+    "chalk": "^2.4.1",
     "eslint": "^5.9.0",
     "eslint-plugin-prettier": "^3.0.0",
+    "fs-extra": "^7.0.1",
     "jest": "^23.6.0",
+    "minimist": "^1.2.0",
     "prettier": "^1.15.2"
   },
   "dependencies": {
     "boom": "^7.2.2",
     "content-type": "^1.0.4",
     "is-stream": "^1.1.0",
+    "pg": "^7.6.1",
     "raw-body": "^2.3.3"
   }
 }

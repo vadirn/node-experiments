@@ -17,8 +17,14 @@ function decorateHandler(handler) {
 }
 
 module.exports = class ResourceProvider {
-  constructor() {
+  constructor(options = {}) {
+    const { pool } = options;
+
+    this.pool = pool;
     this._resources = {};
+  }
+  query(text, params) {
+    return this.pool.query(text, params);
   }
   addResource(resourceName, handlers = {}) {
     // bind ResourceProvider instance, so that other handlers can be accessed from within actions
