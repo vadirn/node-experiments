@@ -29,6 +29,7 @@
   "dependencies": {
     "boom": "^7.2.2",
     "content-type": "^1.0.4",
+    "date-fns": "^1.29.0",
     "is-stream": "^1.1.0",
     "pg": "^7.6.1",
     "raw-body": "^2.3.3"

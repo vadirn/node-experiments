@@ -1,9 +1,9 @@
-const boom = require('boom');
+const Boom = require('boom');
 
 function decorateHandler(handler) {
   if (!handler) {
     return () => {
-      throw boom.notFound();
+      throw Boom.notFound();
     };
   }
   return async (req, res, options = {}) => {
@@ -69,9 +69,14 @@ module.exports = class ResourceProvider {
       },
     };
   }
-  addResourceHook(resourceName, hookType, hook) {
-    if (this._resources[resourceName] && this._resources[resourceName][hookType]) {
-      this._resources[resourceName][hookType].push(hook);
+  addBeforeHook(resourceName, hookType, hook) {
+    if (this._resources[resourceName] && this._resources[resourceName].hooks.before[hookType]) {
+      this._resources[resourceName].hooks.before[hookType].push(hook.bind(this));
+    }
+  }
+  addAfterHook(resourceName, hookType, hook) {
+    if (this._resources[resourceName] && this._resources[resourceName].hooks.after[hookType]) {
+      this._resources[resourceName].hooks.after[hookType].push(hook.bind(this));
     }
   }
   getHandlers(resource) {
@@ -83,7 +88,7 @@ module.exports = class ResourceProvider {
     if (!this._resources[resource]) {
       return [
         () => {
-          throw boom.notFound();
+          throw Boom.notFound();
         },
       ];
     }
@@ -137,7 +142,7 @@ module.exports = class ResourceProvider {
       default:
         return [
           () => {
-            throw boom.notFound();
+            throw Boom.notFound();
           },
         ];
     }

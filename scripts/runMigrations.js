@@ -15,7 +15,7 @@ async function main() {
   });
   const client = await pool.connect();
   try {
-    await client.query(`CREATE TABLE IF NOT EXISTS "public"."migrations" (
+    await client.query(`CREATE TABLE IF NOT EXISTS "migrations" (
   "id" serial,
   "name" text NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT NOW(),
@@ -23,8 +23,8 @@ async function main() {
   UNIQUE ("name")
 );`);
 
-    const res = await client.query('SELECT name FROM migrations');
-    const migrations = res.rows.map(row => row.name);
+    const query = await client.query('SELECT name FROM migrations');
+    const migrations = query.rows.map(row => row.name);
     const migrationsDir = path.resolve(__dirname, '..', 'src', 'migrations');
     const files = await fs.readdir(migrationsDir);
 
@@ -50,9 +50,7 @@ async function main() {
       // try to run the query
       await client.query(migration);
       // add migration to the list of migrations
-      await client.query('INSERT INTO "public"."migrations"("name") VALUES($1) RETURNING "id", "name";', [
-        migrationFile,
-      ]);
+      await client.query('INSERT INTO migrations (name) VALUES($1) RETURNING id, name;', [migrationFile]);
       console.log(chalk.green('success'), `Finished ${migrationFile}`);
     }
   } catch (err) {
